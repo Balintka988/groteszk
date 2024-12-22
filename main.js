@@ -166,6 +166,22 @@ form.addEventListener('submit', function(e) {//amikor submitolunk (amikor rányo
     if(!egyszeruValidation(mu1_HTMLelement, "Meg kell adni, hogy mi a címe")){//itt adunk az egyszeruValidation függvényünknek bemeneti értékeket, és ha a függvény hamis értékkel tér vissza a bemeneti mu1_HTMLelement esetén akkor:
         valid = false;//a valid változónkat hamisra állítja
     }
+    if(szerzo2_HTMLelement.value === '' && mu2_HTMLelement.value !== ''){//ez az elágazás csak akkor fut le hogyha a szerzo2 mező üres és az hadero2 meg nem
+        const parentElement = szerzo2_HTMLelement.parentElement;//megkeressük az éppen aktuális htmlelementnek a parentElement propertyét és ezt eltároljuk egy változóba
+        const errorLocation = parentElement.querySelector('.error');//a szerzo2_HTMLelement beviteli mezőjének parentElementjében keresünk egy olyan elemet amely rendelkezik az "error" osztállyal
+        if (errorLocation != undefined){//hogyha van ilyen mező(van ilyen htmlelement) (nem undefined) akkor
+            errorLocation.innerHTML = "Add meg a második harcoló felet";//megadjuk neki itt a hibaüzenetünket manuálisan (stringet adunk át)
+        }
+        valid = false;//a valid változó értékét hamisra állítjuk
+    };
+    if(mu2_HTMLelement.value === '' && szerzo2_HTMLelement.value !== ''){//ez az elágazás csak akkor fut le hogyha a mu2 mező üres és a harcolo2 meg nem
+            const parentElement = mu2_HTMLelement.parentElement;//megkeressük az éppen aktuális htmlelementnek a parentElement propertyét és ezt eltároljuk egy változóba
+            const errorLocation = parentElement.querySelector('.error');//a mu2_HTMLelement beviteli mezőjének parentElementjében keresünk egy olyan elemet amely rendelkezik az "error" osztállyal
+            if (errorLocation != undefined){//hogyha van ilyen mező(van ilyen htmlelement) (nem undefined) akkor
+                errorLocation.innerHTML = "Add meg a második haderőnek a létszámát";//megadjuk neki itt a hibaüzenetünket manuálisan (stringet adunk át)
+            }
+            valid = false;//a valid változó értékét hamisra állítjuk
+    };
 
     if(valid){//csak akkor fut le(ad hozzá új sort) ha a valid változónk true maradt 
         const newElement = {//itt hozok létre egy új objektumot amit később majd hozzáadunk az array-ünkhöz

@@ -1,0 +1,22 @@
+table, th, td {
+    border-collapse: collapse ;
+    border: 1px solid black ;
+}
+
+thead th:nth-child(1) {
+    background-color: white;
+}
+thead th:nth-child(2) {
+    background-color: rgb(186, 255, 190);
+}
+thead th:nth-child(3) {
+    background-color: white;
+}
+
+.column {
+    background-color: rgb(158, 233, 243);
+}
+
+.error {
+    color: red;
+}

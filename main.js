@@ -105,7 +105,7 @@ function renderTable(){//itt definiálom a renderTable függvényemet
         const tbodyRow2 = document.createElement('tr');//létrehozok egy tr elemet ami az első sor lesz a tablazatban
         tbody.appendChild(tbodyRow2);//hozzaadom a tbody-hoz  
         
-        nemzetiseg.rowSpan = "2"//Ha idáig lefutott a kódunk akkor biztosan szükség lesz soregyesítés és azt pedig itt adjuk meg
+        nemzetiseg.rowSpan = "2"//Ha idáig lefutott a kódunk akkor biztosan szükség lesz soregyesítés és azt pedig itt adjuk meg a nemzetiseg valtozonak
         
         const szerzo2 = document.createElement('td');//letrehozok egy td elemet
         szerzo2.innerHTML = currentElement.szerzo2;//az aktuális elem (currentElement) szerzo2 tulajdonságának értéke lesz itt megjelenítve 
@@ -119,3 +119,44 @@ function renderTable(){//itt definiálom a renderTable függvényemet
 }
 
 renderTable();//a rendeTable függvényt itt hívom meg
+
+const form = document.getElementById('form');//elékrem az index.html-ből a formomnak az id-ját
+form.addEventListener('submit', function(e) {//amikor submitolunk (amikor rányomunk a gombra)akkor hívódik meg ez a függvény és egy új sort tudunk hozzáadni a táblázatunkhoz
+    e.preventDefault(); //megakadalyozza hogy a bongeszo alapertelmezetten fusson le
+    const nemzetiseg_HTMLelement = document.getElementById('szarmazas');//elkerem azt a htmlelementet aminek a szarmazas az id-ja
+    const szerzo1_HTMLelement = document.getElementById('szerzo1');//elkerem azt a htmlelementet aminek az szerzo1 az id-ja
+    const mu1_HTMLelement = document.getElementById('szerzo1mu');//elkerem azt a htmlelementet aminek az szerzo1mu az id-ja
+    const szerzo2_HTMLelement = document.getElementById('szerzo2');//elkerem azt a htmlelementet aminek a szerzo2 az id-ja
+    const mu2_HTMLelement = document.getElementById('szerzo2mu');//elkerem azt a htmlelementet aminek a szerzo2mu az id-ja
+
+    const nemzetiseg_value = nemzetiseg_HTMLelement.value;//az nemzetiseg_HTMLelement értékét beleteszem egy változóba
+    const szerzo1_value = szerzo1_HTMLelement.value;//az szerzo1_HTMLelement értékét beleteszem egy változóba
+    const mu1_value = mu1_HTMLelement.value;//az mu1_HTMLelement értékét beleteszem egy változóba
+    
+    let szerzo2_value;//létrehozunk egy valtozot a masodik szerzo tarolasara
+    if (szerzo2_HTMLelement.value === '') {//ha a szerzo2_HTMLelement értéke ures, akkor:
+        szerzo2_value = undefined; //undefined lesz
+    } 
+    else {//hogyha viszont nem ures 
+        szerzo2_value = szerzo2_HTMLelement.value;//akkor eltároljuk az értékét egy változóban és majd később hozzáadjuk a táblázatunkhoz
+    }
+
+    let mu2_value;//létrehozunk egy valtozot a masodik mu tarolasara
+    if (mu2_HTMLelement.value === '') {//ha a szerzo2_HTMLelement értéke ures, akkor:
+        mu2_value = undefined;//undefined lesz
+    } 
+    else {//hogyha viszont nem ures 
+        mu2_value = mu2_HTMLelement.value;//akkor eltároljuk az értékét egy változóban és majd később hozzáadjuk a táblázatunkhoz
+    }
+
+    const newElement = {//itt hozok létre egy új objektumot amit később majd hozzáadunk az array-ünkhöz
+        nemzetiseg: nemzetiseg_value,//a nemzetiseg értéke a nemzetiseg_value lesz
+        szerzo: szerzo1_value,//a szerző értéke a szerzo1_value lesz
+        mu: mu1_value,//a mű értéke a mu1_value lesz
+        szerzo2: szerzo2_value,//a második szerző értéke a szerzo2_value lesz
+        mu2: mu2_value//a második mű értéke a mu2_value lesz
+    };
+    array.push(newElement);//itt adjuk hozzá az array-hez a new elementet(az új objektumunk) amit fentebb hoztunk létre
+    tbody.innerHTML = ''; //a meglevo tablazat aktualis tartalmat itt töröljük
+    renderTable(); //itt hivjuk meg a renderTable függvényünket ami az új adatokkal együtt fog kirenderelődni
+});

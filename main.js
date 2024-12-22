@@ -157,31 +157,16 @@ form.addEventListener('submit', function(e) {//amikor submitolunk (amikor rányo
     let valid = true;//itt megadjuk a valid változónak kezdőérték ként hogy true ezt majd a későbbiekben fogjuk változtatni
 
 
-    if(nemzetiseg_value === ""){//ellenőrizzük hogy a harc nevének input mezője üres-e
-        const parentElement = nemzetiseg_HTMLelement.parentElement;//megkeressük a szarmazas input mezőjének parentElement tulajdonságát és ezt eltároljuk egy változóba 
-        const errorPlace = parentElement.querySelector('.error');//a szarmazas szuloelemeben keresünk egy olyan elemet ami rendelkezik az error classal
-        if(errorPlace !== undefined){//ha van ilyen hely ahova majd tudja rakni a hibaüzenetet és nem undefined akkor:
-            errorPlace.innerHTML = "Meg kell adni a nemzetiséget";//megadjuk neki manuálisan a hiaüzenetet (stringet) és itt is iratjuk ki
-        }
-        valid = false;//a valid változónkat false-ra állítjuk ezáltal nem adódik majd a táblázatunkhoz új sor
+    if(!egyszeruValidation(nemzetiseg_HTMLelement, "Meg kell adnod, hogy mi a nemzetisége")){//itt adunk az egyszeruValidation függvényünknek bemeneti értékeket, és ha a függvény hamis értékkel tér vissza a bemeneti nemzetiseg_HTMLelement esetén akkor:
+        valid = false;//a valid változónkat hamisra állítja
     }
-    if(szerzo1_value === ""){//ellenőrizzük hogy a harc nevének input mezője üres-e
-        const parentElement = szerzo1_HTMLelement.parentElement;//megkeressük a szerzo1 input mezőjének parentElement tulajdonságát és ezt eltároljuk egy változóba 
-        const errorPlace = parentElement.querySelector('.error');//a szerzo1 szuloelemeben keresünk egy olyan elemet ami rendelkezik az error classal
-        if(errorPlace !== undefined){//ha van ilyen hely ahova majd tudja rakni a hibaüzenetet és nem undefined akkor:
-            errorPlace.innerHTML = "Meg kell adni a szerzőt";//megadjuk neki manuálisan a hiaüzenetet (stringet) és itt is iratjuk ki
-        }
-        valid = false;//a valid változónkat false-ra állítjuk ezáltal nem adódik majd a táblázatunkhoz új sor
+    if(!egyszeruValidation(szerzo1_HTMLelement, "Meg kell adni, hogy ki a szerző")){//itt adunk az egyszeruValidation függvényünknek bemeneti értékeket, és ha a függvény hamis értékkel tér vissza a bemeneti szerzo1_HTMLelement esetén akkor:
+        valid = false;//a valid változónkat hamisra állítja
     }
-    if(mu1_value === ""){//ellenőrizzük hogy a harc nevének input mezője üres-e
-        const parentElement = mu1_HTMLelement.parentElement;//megkeressük a mu1 input mezőjének parentElement tulajdonságát és ezt eltároljuk egy változóba 
-        const errorPlace = parentElement.querySelector('.error');//a mu1 szuloelemeben keresünk egy olyan elemet ami rendelkezik az error classal
-        if(errorPlace !== undefined){//ha van ilyen hely ahova majd tudja rakni a hibaüzenetet és nem undefined akkor:
-            errorPlace.innerHTML = "Meg kell azt hogy mi a mű címe";//megadjuk neki manuálisan a hiaüzenetet (stringet) és itt is iratjuk ki
-        }
-        valid = false;//a valid változónkat false-ra állítjuk ezáltal nem adódik majd a táblázatunkhoz új sor
+    if(!egyszeruValidation(mu1_HTMLelement, "Meg kell adni, hogy mi a címe")){//itt adunk az egyszeruValidation függvényünknek bemeneti értékeket, és ha a függvény hamis értékkel tér vissza a bemeneti mu1_HTMLelement esetén akkor:
+        valid = false;//a valid változónkat hamisra állítja
     }
-    
+
     if(valid){//csak akkor fut le(ad hozzá új sort) ha a valid változónk true maradt 
         const newElement = {//itt hozok létre egy új objektumot amit később majd hozzáadunk az array-ünkhöz
             nemzetiseg: nemzetiseg_value,//a nemzetiseg értéke a nemzetiseg_value lesz
@@ -195,3 +180,16 @@ form.addEventListener('submit', function(e) {//amikor submitolunk (amikor rányo
         renderTable(); //itt hivjuk meg a renderTable függvényünket ami az új adatokkal együtt fogja megjeleníteni a táblázatunkat
     }
 });
+
+function egyszeruValidation(htmlElement, errormessage){
+    let valid = true;
+    if(htmlElement.value === ""){//ellenőrizzük hogy az aktuális htmlElement input mezője üres-e
+        const parentElement = htmlElement.parentElement;//megkeressük az aktuális html elemnek az input mezőjének parentElement tulajdonságát és ezt eltároljuk egy változóba 
+        const errorPlace = parentElement.querySelector('.error');//az aktuális html elem szuloelemeben keresünk egy olyan elemet ami rendelkezik az error classal
+        if(errorPlace !== undefined){//hogyha van ilyen hely ahol meg tudja jeleníteni az errormessaget akkor:
+            errorPlace.innerHTML = errormessage;//megadjuk neki a bemeneti paraméterből a hiaüzenetet (stringet) és itt is iratjuk ki
+        }
+        valid = false;//a valid változónkat false-ra állítjuk ezáltal nem adódik majd a táblázatunkhoz új sor
+    }
+    return valid;//a függvényünk visszatér a valid változóval
+}

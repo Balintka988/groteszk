@@ -166,22 +166,7 @@ form.addEventListener('submit', function(e) {//amikor submitolunk (amikor rányo
     if(!egyszeruValidation(mu1_HTMLelement, "Meg kell adni, hogy mi a címe")){//itt adunk az egyszeruValidation függvényünknek bemeneti értékeket, és ha a függvény hamis értékkel tér vissza a bemeneti mu1_HTMLelement esetén akkor:
         valid = false;//a valid változónkat hamisra állítja
     }
-    if(szerzo2_HTMLelement.value === '' && mu2_HTMLelement.value !== ''){//ez az elágazás csak akkor fut le hogyha a szerzo2 mező üres és az hadero2 meg nem
-        const parentElement = szerzo2_HTMLelement.parentElement;//megkeressük az éppen aktuális htmlelementnek a parentElement propertyét és ezt eltároljuk egy változóba
-        const errorLocation = parentElement.querySelector('.error');//a szerzo2_HTMLelement beviteli mezőjének parentElementjében keresünk egy olyan elemet amely rendelkezik az "error" osztállyal
-        if (errorLocation != undefined){//hogyha van ilyen mező(van ilyen htmlelement) (nem undefined) akkor
-            errorLocation.innerHTML = "Add meg a második harcoló felet";//megadjuk neki itt a hibaüzenetünket manuálisan (stringet adunk át)
-        }
-        valid = false;//a valid változó értékét hamisra állítjuk
-    };
-    if(mu2_HTMLelement.value === '' && szerzo2_HTMLelement.value !== ''){//ez az elágazás csak akkor fut le hogyha a mu2 mező üres és a harcolo2 meg nem
-            const parentElement = mu2_HTMLelement.parentElement;//megkeressük az éppen aktuális htmlelementnek a parentElement propertyét és ezt eltároljuk egy változóba
-            const errorLocation = parentElement.querySelector('.error');//a mu2_HTMLelement beviteli mezőjének parentElementjében keresünk egy olyan elemet amely rendelkezik az "error" osztállyal
-            if (errorLocation != undefined){//hogyha van ilyen mező(van ilyen htmlelement) (nem undefined) akkor
-                errorLocation.innerHTML = "Add meg a második haderőnek a létszámát";//megadjuk neki itt a hibaüzenetünket manuálisan (stringet adunk át)
-            }
-            valid = false;//a valid változó értékét hamisra állítjuk
-    };
+    if(!osszetettValidation(szerzo2_HTMLelement, mu2_HTMLelement, "Meg kell adni mindketto masodikat"))
 
     if(valid){//csak akkor fut le(ad hozzá új sort) ha a valid változónk true maradt 
         const newElement = {//itt hozok létre egy új objektumot amit később majd hozzáadunk az array-ünkhöz
@@ -208,4 +193,24 @@ function egyszeruValidation(htmlElement, errormessage){
         valid = false;//a valid változónkat false-ra állítjuk ezáltal nem adódik majd a táblázatunkhoz új sor
     }
     return valid;//a függvényünk visszatér a valid változóval
+}
+function osszetettValidation(szerzo2_inputHTML, mu2_inputHTML, errormessage) { //itt kapja meg a bemeneti értékeit két htmlelement és egy string
+    let valid = true; //inicializaljuk a valid valtozot true-ra
+
+    if ((szerzo2_inputHTML.value === '' && mu2_inputHTML.value !== '') || (mu2_inputHTML.value === '' && szerzo2_inputHTML.value !== '')){//ha szerzo2 ures, de mu2 nem vagy ha mu2 ures de szerzo2 nem akkor fut tovább
+        
+        let errormezo;//letrehozunk egy valtozot az input mezo tarolasara, ahol a hiba van
+        if (szerzo2_inputHTML.value === '') {//ha szerzo2 ures
+            errormezo = szerzo2_inputHTML;//akkor az errormezo a szerzo2 input lesz
+        } else { 
+            errormezo = mu2_inputHTML; //kulonben az errormezo a mu2 input lesz
+        }
+        const parentElement = errormezo.parentElement;//lekerjuk a fentebb megkapott input mezo szuloelemet
+        const errorLocation = parentElement.querySelector('.error');//megkeressuk a szuloelemben az "error" osztallyal rendelkezo elemet
+        if (errorLocation != undefined) { //ha letezik ilyen elem (nem undefined)
+            errorLocation.innerHTML = errormessage;//beallitjuk az error elem szoveget a kapott hiba uzenetre
+        }
+        valid = false;//a valid valtozot false-ra allitjuk, jelezve, hogy a validacio nem sikerult
+    }
+    return valid; //visszaadjuk a valid valtozo erteket (true vagy false)
 }

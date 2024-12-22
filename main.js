@@ -81,6 +81,46 @@ function generateFejlec(){ //fejlec legeneralasa
 }
 generateFejlec();//itt hívjuk meg a fejlécet generáló függvényt
 
+function generateForm(){//létrehozunk egy függvényt amely le fogja generálni a formunkat
+    const formFields = [//tömb lérehozása függvényen belül is lehet mert csak itt használom
+        { id: "szarmazas", label: "Származás"},//id, label megadása
+        { id: "szerzo1", label: "1. szerző"},//id, label megadása
+        { id: "szerzo1mu", label: "1. szerző műve"},//id, label megadása
+        { id: "szerzo2", label: "2. szerző"},//id, label megadása
+        { id: "szerzo2mu", label: "2. szerző műve"}//id, label megadása
+    ];
+
+    const form = document.createElement('form');//letrehozunk egy form elemet
+    form.id = 'form';//itt adjuk meg neki az id-jét hogy majd később erre tudjunk hivatkozni
+    document.body.appendChild(form);//az űrlapot hozzáadjuk a dokumentumunk törzséhez, bodyhoz
+    
+    for(const field of formFields){//itt járjuk be a formFields tömbnek minden egyes objektumát
+        const div = document.createElement('div');//létrehozunk egy div elemet ami a formunk egyik sora lesz
+        div.classList.add('field');//megadom a div-nek a field classt
+
+        const label = document.createElement('label');//létrehozok egy label elemet
+        label.innerText = field.label;//a label szövegét beállítjuk az aktuálisra
+        label.htmlFor = field.id;//itt adom meg neki a html-forját azért dolgozhatok az id-ből mert az ugyan az mint a for a mi esetünkben
+        div.appendChild(label);//hozzáadom a label1-et a divhez
+
+        const input1 = document.createElement('input');//itt hozzuk létre az input mezőt, itt viszük majd be a szöveget
+        input1.type = "text";//az input típusát textre állítjuk, hogy szöveges adatot tudjunk bevinni
+        input1.id = field.id;//itt adjuk meg az azonosítóját
+        div.appendChild(input1);//Az input mezőt hozzáadjuk a div-hez
+
+        const div1_error = document.createElement('div');//létrehozunk még egy divet ahol majd a hibaüzenetet fogjuk megjeleníteni
+        div1_error.classList = "error";//error osztályt hozzárendeljük
+        div.appendChild(div1_error);//a hibaüzenet div-et hozzáadjuk a div hez
+
+        form.appendChild(div);//az imént összeállított div-et itt adjuk hozzá a formhoz
+    }
+    const button = document.createElement('button');//itt hozok létre egy új button elemet
+    button.type = 'submit';//a típusát beállítjuk submitra
+    button.innerText = 'Hozzáadás';//a gombon kiírva az lesz hogy Hozzáadás
+    form.appendChild(button);//hozzáadjuk a gombunkat a formhoz
+}
+generateForm();//függvényhívás
+
 function renderTable(irodalom_array){//itt definiálom a renderTable függvényemet
     for(const currentElement of irodalom_array){//itt a ciklusunk végigiterál az irodalom_array tömbünk elemein és a currentElement lesz az aktuális elem
         //sor létrehozása

@@ -1,4 +1,4 @@
-const array = [//itt hozom létre az array tömböt, minden értékadásnál egy string típusú értéket adok meg az éppen aktuális tulajdonságnak
+const irodalom_array = [//itt hozom létre az irodalom_array tömböt, minden értékadásnál egy string típusú értéket adok meg az éppen aktuális tulajdonságnak
     {
         nemzetiseg: "Orosz",// nemzetiség megadása
         szerzo: "Gogol",//szerző nevének megadása
@@ -65,8 +65,7 @@ table.appendChild(tbody);//hozzáadjuk a tbody-t a table-hez
 /**
  * a createHeader függvény segítségével hozzuk lére a fejlécünket
  * A fejlécet a header tömbből szedi ki és írja ki 
- * ezen a tömbön iterál végig
- * az első vagy utolsó oszlophoz 'column' osztályt rendel hozzá hogy jó legyen a css-ünk
+ * ezen a tömböt járjuk be egy for of ciklus segítségével
  */
 function generateFejlec(){ //fejlec legeneralasa
     const header = ["Nemzetiség", "Szerző", "Mű"]; //a header nevű tömbbe eltároljuk az adatokat amik stringek
@@ -82,8 +81,8 @@ function generateFejlec(){ //fejlec legeneralasa
 }
 generateFejlec();//itt hívjuk meg a fejlécet generáló függvényt
 
-function renderTable(){//itt definiálom a renderTable függvényemet
-    for(const currentElement of array){//itt a ciklusunk végigiterál az array tömbünk elemein és a currentElement lesz az aktuális elem
+function renderTable(irodalom_array){//itt definiálom a renderTable függvényemet
+    for(const currentElement of irodalom_array){//itt a ciklusunk végigiterál az irodalom_array tömbünk elemein és a currentElement lesz az aktuális elem
         //sor létrehozása
         const tbodyRow = document.createElement('tr');//létrehozok egy tr elemet ami az első sor lesz a tablazatban
         tbody.appendChild(tbodyRow);//hozzaadom a tbody-hoz  
@@ -119,7 +118,7 @@ function renderTable(){//itt definiálom a renderTable függvényemet
     }
 }
 
-renderTable();//a rendeTable függvényt itt hívom meg
+renderTable(irodalom_array);//a rendeTable függvényt itt hívom meg, és megadom neki hogy melyik tömböt járja be
 
 const form = document.getElementById('form');//elékrem az index.html-ből a formomnak az id-ját
 form.addEventListener('submit', function(e) {//amikor submitolunk (amikor rányomunk a gombra)akkor hívódik meg ez a függvény és egy új sort tudunk hozzáadni a táblázatunkhoz
@@ -172,16 +171,16 @@ form.addEventListener('submit', function(e) {//amikor submitolunk (amikor rányo
     }
 
     if(valid){//csak akkor fut le(ad hozzá új sort) ha a valid változónk true maradt 
-        const newElement = {//itt hozok létre egy új objektumot amit később majd hozzáadunk az array-ünkhöz
+        const newElement = {//itt hozok létre egy új objektumot amit később majd hozzáadunk az irodalom_array-ünkhöz
             nemzetiseg: nemzetiseg_value,//a nemzetiseg értéke a nemzetiseg_value lesz
             szerzo: szerzo1_value,//a szerző értéke a szerzo1_value lesz
             mu: mu1_value,//a mű értéke a mu1_value lesz
             szerzo2: szerzo2_value,//a második szerző értéke a szerzo2_value lesz
             mu2: mu2_value//a második mű értéke a mu2_value lesz
         };
-        array.push(newElement);//itt adjuk hozzá az array-hez a new elementet(az új objektumunk) amit fentebb hoztunk létre
+        irodalom_array.push(newElement);//itt adjuk hozzá az irodalom_array-hez a new elementet(az új objektumunk) amit fentebb hoztunk létre
         tbody.innerHTML = ''; //a meglevo tablazat aktualis tartalmat itt töröljük
-        renderTable(); //itt hivjuk meg a renderTable függvényünket ami az új adatokkal együtt fogja megjeleníteni a táblázatunkat
+        renderTable(irodalom_array); //itt hivjuk meg a renderTable függvényünket ami az új adatokkal együtt fogja megjeleníteni a táblázatunkat
         thisForm.reset();//itt töröljük ki a formunk input mezőiből a beírt szöveget
     }
 });

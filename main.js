@@ -81,6 +81,10 @@ headerRow.appendChild(headerCell3);//a headerRow-hoz (fejléc sorához) adom hoz
 const tbody = document.createElement('tbody');//létrehozok egy tbody elemet
 table.appendChild(tbody);//hozzáadjuk a tbody-t a table-hez
 
+function generateFejlec(){
+
+}
+
 function renderTable(){//itt definiálom a renderTable függvényemet
     for(const currentElement of array){//itt a ciklusunk végigiterál az array tömbünk elemein és a currentElement lesz az aktuális elem
         //sor létrehozása
@@ -166,7 +170,9 @@ form.addEventListener('submit', function(e) {//amikor submitolunk (amikor rányo
     if(!egyszeruValidation(mu1_HTMLelement, "Meg kell adni, hogy mi a címe")){//itt adunk az egyszeruValidation függvényünknek bemeneti értékeket, és ha a függvény hamis értékkel tér vissza a bemeneti mu1_HTMLelement esetén akkor:
         valid = false;//a valid változónkat hamisra állítja
     }
-    if(!osszetettValidation(szerzo2_HTMLelement, mu2_HTMLelement, "Meg kell adni mindketto masodikat"))
+    if(!osszetettValidation(szerzo2_HTMLelement, mu2_HTMLelement, "Meg kell adni mindketto masodikat")){
+        valid = false;
+    }
 
     if(valid){//csak akkor fut le(ad hozzá új sort) ha a valid változónk true maradt 
         const newElement = {//itt hozok létre egy új objektumot amit később majd hozzáadunk az array-ünkhöz

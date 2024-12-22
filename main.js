@@ -132,7 +132,7 @@ form.addEventListener('submit', function(e) {//amikor submitolunk (amikor rányo
     const nemzetiseg_value = nemzetiseg_HTMLelement.value;//az nemzetiseg_HTMLelement értékét beleteszem egy változóba
     const szerzo1_value = szerzo1_HTMLelement.value;//az szerzo1_HTMLelement értékét beleteszem egy változóba
     const mu1_value = mu1_HTMLelement.value;//az mu1_HTMLelement értékét beleteszem egy változóba
-    
+
     let szerzo2_value;//létrehozunk egy valtozot a masodik szerzo tarolasara
     if (szerzo2_HTMLelement.value === '') {//ha a szerzo2_HTMLelement értéke ures, akkor:
         szerzo2_value = undefined; //undefined lesz
@@ -149,14 +149,49 @@ form.addEventListener('submit', function(e) {//amikor submitolunk (amikor rányo
         mu2_value = mu2_HTMLelement.value;//akkor eltároljuk az értékét egy változóban és majd később hozzáadjuk a táblázatunkhoz
     }
 
-    const newElement = {//itt hozok létre egy új objektumot amit később majd hozzáadunk az array-ünkhöz
-        nemzetiseg: nemzetiseg_value,//a nemzetiseg értéke a nemzetiseg_value lesz
-        szerzo: szerzo1_value,//a szerző értéke a szerzo1_value lesz
-        mu: mu1_value,//a mű értéke a mu1_value lesz
-        szerzo2: szerzo2_value,//a második szerző értéke a szerzo2_value lesz
-        mu2: mu2_value//a második mű értéke a mu2_value lesz
-    };
-    array.push(newElement);//itt adjuk hozzá az array-hez a new elementet(az új objektumunk) amit fentebb hoztunk létre
-    tbody.innerHTML = ''; //a meglevo tablazat aktualis tartalmat itt töröljük
-    renderTable(); //itt hivjuk meg a renderTable függvényünket ami az új adatokkal együtt fog kirenderelődni
+    const thisForm = e.currentTarget;//az e.currentTarget tartalmazza a formunkat amit eltarolunk egy valtozoban
+    const errorElements = thisForm.querySelectorAll('.error');//az összes olyan elemet elkérjük ami error classal rendelkezik
+    for (const errorElement of errorElements){//itt végigiterálunk az imént bekért error classos elemeken ami az errorElements
+        errorElement.innerHTML = "";//kitöröljük azt az elemet ami benne van
+    }
+    let valid = true;//itt megadjuk a valid változónak kezdőérték ként hogy true ezt majd a későbbiekben fogjuk változtatni
+
+
+    if(nemzetiseg_value === ""){//ellenőrizzük hogy a harc nevének input mezője üres-e
+        const parentElement = nemzetiseg_HTMLelement.parentElement;//megkeressük a szarmazas input mezőjének parentElement tulajdonságát és ezt eltároljuk egy változóba 
+        const errorPlace = parentElement.querySelector('.error');//a szarmazas szuloelemeben keresünk egy olyan elemet ami rendelkezik az error classal
+        if(errorPlace !== undefined){//ha van ilyen hely ahova majd tudja rakni a hibaüzenetet és nem undefined akkor:
+            errorPlace.innerHTML = "Meg kell adni a nemzetiséget";//megadjuk neki manuálisan a hiaüzenetet (stringet) és itt is iratjuk ki
+        }
+        valid = false;//a valid változónkat false-ra állítjuk ezáltal nem adódik majd a táblázatunkhoz új sor
+    }
+    if(szerzo1_value === ""){//ellenőrizzük hogy a harc nevének input mezője üres-e
+        const parentElement = szerzo1_HTMLelement.parentElement;//megkeressük a szerzo1 input mezőjének parentElement tulajdonságát és ezt eltároljuk egy változóba 
+        const errorPlace = parentElement.querySelector('.error');//a szerzo1 szuloelemeben keresünk egy olyan elemet ami rendelkezik az error classal
+        if(errorPlace !== undefined){//ha van ilyen hely ahova majd tudja rakni a hibaüzenetet és nem undefined akkor:
+            errorPlace.innerHTML = "Meg kell adni a szerzőt";//megadjuk neki manuálisan a hiaüzenetet (stringet) és itt is iratjuk ki
+        }
+        valid = false;//a valid változónkat false-ra állítjuk ezáltal nem adódik majd a táblázatunkhoz új sor
+    }
+    if(mu1_value === ""){//ellenőrizzük hogy a harc nevének input mezője üres-e
+        const parentElement = mu1_HTMLelement.parentElement;//megkeressük a mu1 input mezőjének parentElement tulajdonságát és ezt eltároljuk egy változóba 
+        const errorPlace = parentElement.querySelector('.error');//a mu1 szuloelemeben keresünk egy olyan elemet ami rendelkezik az error classal
+        if(errorPlace !== undefined){//ha van ilyen hely ahova majd tudja rakni a hibaüzenetet és nem undefined akkor:
+            errorPlace.innerHTML = "Meg kell azt hogy mi a mű címe";//megadjuk neki manuálisan a hiaüzenetet (stringet) és itt is iratjuk ki
+        }
+        valid = false;//a valid változónkat false-ra állítjuk ezáltal nem adódik majd a táblázatunkhoz új sor
+    }
+    
+    if(valid){//csak akkor fut le(ad hozzá új sort) ha a valid változónk true maradt 
+        const newElement = {//itt hozok létre egy új objektumot amit később majd hozzáadunk az array-ünkhöz
+            nemzetiseg: nemzetiseg_value,//a nemzetiseg értéke a nemzetiseg_value lesz
+            szerzo: szerzo1_value,//a szerző értéke a szerzo1_value lesz
+            mu: mu1_value,//a mű értéke a mu1_value lesz
+            szerzo2: szerzo2_value,//a második szerző értéke a szerzo2_value lesz
+            mu2: mu2_value//a második mű értéke a mu2_value lesz
+        };
+        array.push(newElement);//itt adjuk hozzá az array-hez a new elementet(az új objektumunk) amit fentebb hoztunk létre
+        tbody.innerHTML = ''; //a meglevo tablazat aktualis tartalmat itt töröljük
+        renderTable(); //itt hivjuk meg a renderTable függvényünket ami az új adatokkal együtt fogja megjeleníteni a táblázatunkat
+    }
 });

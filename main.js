@@ -58,32 +58,29 @@ colgroup.appendChild(col3);//a colgrouphoz adom hozzá
 const thead = document.createElement('thead');//thead elem letrehozasa itt tortenik ez lesz a fejlec
 table.appendChild(thead);//hozzáadom a tablehez
 
-//Létrehozunk egy sort a fejlécnek
-const headerRow = document.createElement('tr');//itt hozok létre egy tr elemet 
-thead.appendChild(headerRow);//hozzadaom a theadre
-
-//Az első cella létrehozása a fejléc sorában
-const headerCell = document.createElement('th');//itt egy th elemet hozok letre
-headerCell.innerHTML = header.nemzetiseg;//a cellaban a header objektum nemzetisege tulajdonsaganak az erteket iratjuk ki
-headerRow.appendChild(headerCell);//a headerRow-hoz (fejléc sorához) adom hozzá
-
-//A második cella létrehozása a fejléc sorában
-const headerCell2 = document.createElement('th');//itt egy th elemet hozok letre
-headerCell2.innerHTML = header.szerzo;//a cellaban a header objektum szerzo tulajdonsaganak az erteket iratjuk ki
-headerRow.appendChild(headerCell2);//a headerRow-hoz (fejléc sorához) adom hozzá
-
-//A harmadik cella létrehozása a fejléc sorában
-const headerCell3 = document.createElement('th');//itt egy th elemet hozok letre
-headerCell3.innerHTML = header.mu;//a cellaban a header objektum mu tulajdonsaganak az erteket iratjuk ki
-headerRow.appendChild(headerCell3);//a headerRow-hoz (fejléc sorához) adom hozzá
-
 //Itt hozzuk létre a táblázat törzsét
 const tbody = document.createElement('tbody');//létrehozok egy tbody elemet
 table.appendChild(tbody);//hozzáadjuk a tbody-t a table-hez
 
-function generateFejlec(){
+/**
+ * a createHeader függvény segítségével hozzuk lére a fejlécünket
+ * A fejlécet a header tömbből szedi ki és írja ki 
+ * ezen a tömbön iterál végig
+ * az első vagy utolsó oszlophoz 'column' osztályt rendel hozzá hogy jó legyen a css-ünk
+ */
+function generateFejlec(){ //fejlec legeneralasa
+    const header = ["Nemzetiség", "Szerző", "Mű"]; //a header nevű tömbbe eltároljuk az adatokat amik stringek
 
+    const headerRow = document.createElement('tr'); //a fejlécnek létrehozok egy sort
+    thead.appendChild(headerRow); //thead elemhez hozzáadom az új sorunkat
+
+    for (const elem of header) { //a header tömböt for of-al járom be
+        const headerCell = document.createElement('th'); //létrehozok egy uj cellat 
+        headerCell.innerHTML = elem; //a headerCell cellájának adom meg az éppen aktuális elemet
+        headerRow.appendChild(headerCell); //végül a cellát hozzáadjuk a fejléc sorához
+    }
 }
+generateFejlec();//itt hívjuk meg a fejlécet generáló függvényt
 
 function renderTable(){//itt definiálom a renderTable függvényemet
     for(const currentElement of array){//itt a ciklusunk végigiterál az array tömbünk elemein és a currentElement lesz az aktuális elem
@@ -185,6 +182,7 @@ form.addEventListener('submit', function(e) {//amikor submitolunk (amikor rányo
         array.push(newElement);//itt adjuk hozzá az array-hez a new elementet(az új objektumunk) amit fentebb hoztunk létre
         tbody.innerHTML = ''; //a meglevo tablazat aktualis tartalmat itt töröljük
         renderTable(); //itt hivjuk meg a renderTable függvényünket ami az új adatokkal együtt fogja megjeleníteni a táblázatunkat
+        thisForm.reset();//itt töröljük ki a formunk input mezőiből a beírt szöveget
     }
 });
 

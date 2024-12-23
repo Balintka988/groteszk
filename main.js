@@ -36,24 +36,6 @@ const table = document.createElement('table');//létrehozok egy table elemet, am
 document.body.appendChild(table);//Hozzáadom a bodyhoz
 //A colgroup elemek szabályozzák a táblázatunk oszlopainak stílusát
 
-//A colgroup elemet hozzuk it létre
-const colgroup = document.createElement('colgroup');//itt hozom létre a colgroup elemet
-table.appendChild(colgroup);//hozzáadjuk a tablehoz
-
-//itt definiálom az első oszlopot 
-const col1 = document.createElement('col');//itt hozom letre a col elemet
-col1.className = "column";//itt adok neki egy className-t ez alapjan talalja meg a css
-colgroup.appendChild(col1);//a colgrouphoz adom hozzá
-
-//itt definiálom a második oszlopot, nem adok neki semmit mert nem kell semmit megjelenítenie
-const col2 = document.createElement('col');//itt hozom letre a col elemet
-colgroup.appendChild(col2);//a colgrouphoz adom hozzá
-
-//itt definiálom a harmadik oszlopot 
-const col3 = document.createElement('col');//itt hozom letre a col elemet
-col3.className = "column";//itt adok neki egy className-t 
-colgroup.appendChild(col3);//a colgrouphoz adom hozzá
-
 //A táblázat fejlécének létrehozása
 const thead = document.createElement('thead');//thead elem letrehozasa itt tortenik ez lesz a fejlec
 table.appendChild(thead);//hozzáadom a tablehez
@@ -62,6 +44,7 @@ table.appendChild(thead);//hozzáadom a tablehez
 const tbody = document.createElement('tbody');//létrehozok egy tbody elemet
 table.appendChild(tbody);//hozzáadjuk a tbody-t a table-hez
 
+colgroupFuggveny();//itt hivom meg a colgroupFuggvényt ami majd az első és utolso oszlopot szinezi be
 renderTable(irodalom_array);//a rendeTable függvényt itt hívom meg, és megadom neki hogy melyik tömböt járja be
 generateForm();//függvényhívás
 generateFejlec();//itt hívjuk meg a fejlécet generáló függvényt

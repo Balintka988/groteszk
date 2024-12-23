@@ -159,3 +159,16 @@ function showError(inputHtmlelement, errormessage){//itt hozzuk létre a függv�
         errorPlace.innerHTML = errormessage;//megadjuk neki a bemeneti paraméterből a hiaüzenetet (stringet) és itt is iratjuk ki
     }
 }
+
+function colgroupFuggveny(){//fuggvény létrehozása
+    const colgroup = document.createElement('colgroup');//itt hozom létre a colgroup elemet
+    table.appendChild(colgroup);//hozzáadjuk a tablehoz
+
+    for(let i = 0; i < 3; i++){//mivel tudom hogy 3 oszlopunk van összesen ezért 3x fog lefutni ez a növekményes ciklus
+        const col = document.createElement('col');//itt hozom letre a col elemet
+        if(i === 0 || i === 2){//abban az esetben, ha az 1oszlopnál vagy az utolsó oszlopnál tart akkor:
+            col.className = "column";//hozzáad egy className-t ez alapjan talalja meg a css
+        }
+        colgroup.appendChild(col);//a colgrouphoz adom hozzá
+    }
+}

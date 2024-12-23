@@ -141,11 +141,7 @@ function osszetettValidation(szerzo2_inputHTML, mu2_inputHTML, errormessage) { /
         } else { 
             errormezo = mu2_inputHTML; //kulonben az errormezo a mu2 input lesz
         }
-        const parentElement = errormezo.parentElement;//lekerjuk a fentebb megkapott input mezo szuloelemet
-        const errorLocation = parentElement.querySelector('.error');//megkeressuk a szuloelemben az "error" osztallyal rendelkezo elemet
-        if (errorLocation != undefined) { //ha letezik ilyen elem (nem undefined)
-            errorLocation.innerHTML = errormessage;//beallitjuk az error elem szoveget a kapott hiba uzenetre
-        }
+        showError(errormezo, errormessage);//itt híjuk meg azt a függvényt ami majd megjeleníti a hibaüzenetet    
         valid = false;//a valid valtozot false-ra allitjuk, jelezve, hogy a validacio nem sikerult
     }
     return valid; //visszaadjuk a valid valtozo erteket (true vagy false)

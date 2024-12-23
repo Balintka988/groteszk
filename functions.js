@@ -160,6 +160,11 @@ function showError(inputHtmlelement, errormessage){//itt hozzuk létre a függv�
     }
 }
 
+/**
+ * ezzel a segédfüggvénnyel váltjuk le a colgroup miatti sok kódismétlést 
+ * először létrehozunk egy colgroup elemet
+ * utána meg 3x legenerálunk col elemeket amiknek className-t is adunk ha az első vagy utolsó oszlop
+ */
 function colgroupFuggveny(){//fuggvény létrehozása
     const colgroup = document.createElement('colgroup');//itt hozom létre a colgroup elemet
     table.appendChild(colgroup);//hozzáadjuk a tablehoz

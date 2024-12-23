@@ -81,6 +81,11 @@ function generateFejlec(){ //fejlec legeneralasa
 }
 generateFejlec();//itt hívjuk meg a fejlécet generáló függvényt
 
+
+/**
+ * Ebben a függvényben generáljuk le a formot
+ * A függvény a formFileds tömbünket járja be és ez alapján hoz létre dinamikusan HTML űrlapot
+ */
 function generateForm(){//létrehozunk egy függvényt amely le fogja generálni a formunkat
     const formFields = [//tömb lérehozása függvényen belül is lehet mert csak itt használom
         { id: "szarmazas", label: "Származás"},//id, label megadása
@@ -121,6 +126,12 @@ function generateForm(){//létrehozunk egy függvényt amely le fogja generálni
 }
 generateForm();//függvényhívás
 
+/**
+ * ennek a függgvénynek a segítségével jelenik meg a táblázatunk
+ * 
+ * @param {Array} irodalom_array - ebben a tömbben tároljuk azokat az adatokat amelynek egyes objektumai
+ * tartalmazzák a nemzetiséget, szerzőt, művet és ha van ilyen akkor szerző2-t és mű2-t
+ */
 function renderTable(irodalom_array){//itt definiálom a renderTable függvényemet
     for(const currentElement of irodalom_array){//itt a ciklusunk végigiterál az irodalom_array tömbünk elemein és a currentElement lesz az aktuális elem
         //sor létrehozása
@@ -225,18 +236,32 @@ form.addEventListener('submit', function(e) {//amikor submitolunk (amikor rányo
     }
 });
 
+/**
+ * ellenőrizzük hogy az adott input mező üres-e, hogyha igen akkor egy hibaüzenetet jelenítünk meg alatta
+ * 
+ * @param {htmlElement} htmlElement - az az input mező amelyiket ellenőrizni szeretnénk
+ * @param {string} errormessage - a kiirandó hibauzenetnek a szövege
+ * @returns {boolean} - a valid változónkkal tér vissza vagy true vagy false
+ */
 function egyszeruValidation(htmlElement, errormessage){
     let valid = true;
     if(htmlElement.value === ""){//ellenőrizzük hogy az aktuális htmlElement input mezője üres-e
-        const parentElement = htmlElement.parentElement;//megkeressük az aktuális html elemnek az input mezőjének parentElement tulajdonságát és ezt eltároljuk egy változóba 
-        const errorPlace = parentElement.querySelector('.error');//az aktuális html elem szuloelemeben keresünk egy olyan elemet ami rendelkezik az error classal
-        if(errorPlace !== undefined){//hogyha van ilyen hely ahol meg tudja jeleníteni az errormessaget akkor:
-            errorPlace.innerHTML = errormessage;//megadjuk neki a bemeneti paraméterből a hiaüzenetet (stringet) és itt is iratjuk ki
-        }
+    showError(htmlElement, errormessage);//itt híjuk meg azt a függvényt ami majd megjeleníti a hibaüzenetet    
         valid = false;//a valid változónkat false-ra állítjuk ezáltal nem adódik majd a táblázatunkhoz új sor
     }
     return valid;//a függvényünk visszatér a valid változóval
 }
+
+/**
+ * ezzel a függvénnyel döntjük el azt hogy mindkettő második szerzo és mű is ki van e töltve.
+ * ha nincs akkor hibaüzenetet jelenítünk meg az alatt amelyik nincs kitöltve
+ * először megkeressük azt a mezőt amelyikben nincsen semmi és utana rendeljük hozzá a hibaüzenetet
+ * 
+ * @param {htmlElement} szerzo2_inputHTML - az egyik ellenőrizendő input 
+ * @param {htmlElement} mu2_inputHTML - a másik ellenőrizendő input
+ * @param {string} errormessage - a megjeleníteni kívánt hibaüzenet
+ * @returns {boolean} - a valid változónkkal tér vissza vagy true vagy false
+ */
 function osszetettValidation(szerzo2_inputHTML, mu2_inputHTML, errormessage) { //itt kapja meg a bemeneti értékeit két htmlelement és egy string
     let valid = true; //inicializaljuk a valid valtozot true-ra
 
@@ -256,4 +281,17 @@ function osszetettValidation(szerzo2_inputHTML, mu2_inputHTML, errormessage) { /
         valid = false;//a valid valtozot false-ra allitjuk, jelezve, hogy a validacio nem sikerult
     }
     return valid; //visszaadjuk a valid valtozo erteket (true vagy false)
+}
+/**
+ * Ez egy segédfüggvény, ezáltal az egyszeruValidation függvényembe csak meg kell ezt hívni és meg is lesz jelenítve a hibaüzenet
+ * 
+ * 
+ * @param {htmlElement} inputHtmlelement - az a html element amelyhez hozzá kell rendelnünk a hibaüzenetet
+ * @param {string} errormessage - a megjelenítendő hibaüzenet
+ */
+function showError(inputHtmlelement, errormessage){//itt hozzuk létre a függvényünket
+    const errorPlace = inputHtmlelement.parentElement.querySelector('.error');//az aktuális html elem szuloelemeben keresünk egy olyan elemet ami rendelkezik az error classal
+    if(errorPlace !== undefined){//hogyha van ilyen hely ahol meg tudja jeleníteni az errormessaget akkor:
+        errorPlace.innerHTML = errormessage;//megadjuk neki a bemeneti paraméterből a hiaüzenetet (stringet) és itt is iratjuk ki
+    }
 }
